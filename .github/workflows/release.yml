@@ -22,13 +22,9 @@ jobs:
                 password: ${{secrets.GITHUB_TOKEN }}
 
             - name: Build and Push Versioned Image
-              run: |
-               VERSION=${GITHUB_REF#refs/tags/}
-
-               docker build \
-                 -t ghcr.io/${{github.repository_owner}}/portfolio-devops-project:$VERSION \
-                 -t ghcr.io/${{github.repository_owner}}/portfolio-devops-porject:latest \
-                 .
-                 
-               docker push ghcr.io/${{github.repository_owner}}/portfolio-devops-project:$VERSION
-               docker push ghcr.io/${{github.repository_owner}}/portfolio-devops-project:latest
+              uses: docker/build-push-action@v6
+              with:
+                push: true
+                tags: |
+                 ghcr.io/${{github.repository_owner}}/portfolio-devops-project:${{github.event.release.tag_name}}
+                 ghcr.io/${{github.repository_owner}}/portfolio-devops-project:latest
