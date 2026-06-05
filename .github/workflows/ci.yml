@@ -1,0 +1,24 @@
+name: Pull Request Validation
+
+on:
+  pull_request:
+    branches:
+      - main
+jobs:
+  validate-website:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      
+      - name: Verify index.html exists
+        run: |
+         test -f index.html
+
+      - name: Verify style.css exists
+        run: |
+         test -f style.css
+
+      - name: Display success Message
+        run: |
+         echo "Website Validation Processed..!"
